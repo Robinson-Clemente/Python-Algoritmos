@@ -1,8 +1,8 @@
 #Autor: Robinson Daniel Clemente Cordoba
 
-#Se clasifica el número mayor de una lista dada
+#Se clasifica el número mayor de una lista dada de forma recursiva
 
-lista = [17,21,23,24,101,6,-100,7,8,9,71]
+lista = [-100,21,23,24,101,6,7,8,9,71,17,102]
 
 def clasificarMayor(lista):
 
