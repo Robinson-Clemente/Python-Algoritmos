@@ -2,6 +2,15 @@
 
 #Se clasifica el número mayor de una lista dada de forma recursiva
 
+"""
+Notas: - Este código necesita ser mejorado. Solo basta el método desarrollado
+para recorrer tanto por izquierda como por derecha.
+
+- Considérese la adición de hilos para aumentar la velocidad de ejecución de
+los algoritmos desarrollados
+
+"""
+
 lista = [-100,21,23,24,101,6,7,8,9,71,17,102]
 
 def clasificarMayor(lista):
