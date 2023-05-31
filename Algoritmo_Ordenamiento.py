@@ -2,10 +2,12 @@
 
 # Se realiza algoritmo de ordenación ascendente de forma recursiva
 
-# Peor de los casos
-lista = [16, 15, 13, 12, 11, 19, 8, 7, 6, 5, 4, 3, 2, 1]
 
-# Mejor de los casos
+lista = [16, 15, 13, 12, 11, 19, 38, 37, 36,
+         35, 34, 33, 32, 8, 7, 6, 5, 4, 3, 2, 1]
+# lista = [8,6,4,7,5,3]
+lado_izq = []
+lado_der = []
 
 
 def ordenarPar(sublista):
@@ -13,6 +15,8 @@ def ordenarPar(sublista):
         temporal = sublista[0]
         sublista[0] = sublista[1]
         sublista[1] = temporal
+
+        return sublista
 
 
 def ordenarPares(sublista):
@@ -27,6 +31,9 @@ def ordenarPares(sublista):
         temporal = sublista[2]
         sublista[2] = sublista[3]
         sublista[3] = temporal
+
+        return sublista
+
 
 # Este método debe ser llamado estando ya los pares ordenados
 
@@ -107,22 +114,31 @@ def ordenarAscendentemente(sublista):
         return sublista
 
     else:
-        ordenarLista(sublista)
+        sublista = ordenarLista(sublista)
+        return sublista
 
 
 def ordenarLista(lista):
 
     sublistas = dividirLista(lista)
-
     sublista_izq = sublistas[0]
     sublista_der = sublistas[1]
 
-    sublista_izq = ordenarAscendentemente(sublista_izq)
-    sublista_der = ordenarAscendentemente(sublista_der)
     print("|-----------------------------|")
-    print("Sublista izq: ", sublista_izq)
-    print("Sublista der: ", sublista_der)
+    sublista_izq = ordenarAscendentemente(sublista_izq)
+
+    if sublista_izq is not None:
+        lado_izq.append(sublista_izq)
+        print("Sublista izq: ", sublista_izq)
+
+    sublista_der = ordenarAscendentemente(sublista_der)
+
+    if sublista_der is not None:
+        lado_der.append(sublista_der)
+        print("Sublista der: ", sublista_der)
 
 
 print("Antes: ", lista)
 ordenarLista(lista)
+print("|-----------------------------|")
+# print("Después: ", lista)
