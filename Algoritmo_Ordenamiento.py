@@ -7,7 +7,7 @@ lista = [16, 15, 13, 12, 11, 19, 38, 37, 36,
         35, 34, 33, 32, 8, 7, 6, 5, 4, 3, 2, 1]
          
 #lista = [8,6,4,1,7,5,3,2,1]
-clasificados = []
+listas_clasificadas = []
 
 def ordenarPar(sublista):
     if not (sublista[0] < sublista[1]):
@@ -127,13 +127,13 @@ def ordenarLista(lista):
     sublista_izq = ordenarAscendentemente(sublista_izq)
 
     if sublista_izq is not None:
-        clasificados.append(sublista_izq)
+        listas_clasificadas.append(sublista_izq)
         print("Sublista izq: ", sublista_izq)
 
     sublista_der = ordenarAscendentemente(sublista_der)
 
     if sublista_der is not None:
-        clasificados.append(sublista_der)
+        listas_clasificadas.append(sublista_der)
         print("Sublista der: ", sublista_der)
     # Hacer el ajuste para que los finalistas ingresen solo en una lista
 
