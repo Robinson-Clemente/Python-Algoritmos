@@ -135,13 +135,11 @@ def insertarPorDerechaRecursivamente(lista0, lista1):
 #    lista0.insert(0, lista1[:])
 
 def insercionIntermediaRecursiva(indice, lista0, lista1):
-
     if indice < (len(lista0)-1):
         extremo_menor_temporal = lista0[indice]
         extremo_mayor_temporal = lista0[indice+1]
         if len(lista1) >= 1:
             numero = lista1.pop(0)
-
             """ Se cae en cuenta que se puede utilizar el número nuevo insertado a la lista
             como recurso para ordenar correctamente la lista. Además se sabe que
             el próximo número a ingresar es mayor que el recién ingresado """
@@ -162,16 +160,17 @@ def insercionIntermediaRecursiva(indice, lista0, lista1):
                 """ En este caso sí se actualiza el indice debido a que se sabe
                 que el próximo numero (si lo hay) a evaluar es mayor que el recién ingresado """
 
-            # Caso cuando el número es igual al extremo menor o al extremo mayor
+            # Caso cuando el número es igual al extremo menor
             if extremo_menor_temporal == numero:
                 lista0.insert(indice+1, numero) # indice+1 para que el insert lo añada delante del extremo menor
                 indice = lista0.index(numero, indice+1) #para que retorne el index a por delante del extremo menor
                 #ya que al haber valores repetidos puede retornar un indice incorrecto
                 insercionIntermediaRecursiva(indice, lista0, lista1)
 
+            # Caso cuando el número es igual al extremo al extremo mayor
             if extremo_mayor_temporal == numero:
-                lista0.insert(indice+2, numero) # indice+2 para que el insert lo añada delante del extremo mayor
-                indice = lista0.index(numero, indice+2) #para que retorne el index a por delante del extremo menor
+                lista0.insert(indice+2, numero) # indice para que el insert lo añada delante del extremo mayor
+                indice = lista0.index(numero, indice+2) #para que retorne el index delante del extremo mayor
                 #ya que al haber valores repetidos puede retornar un indice incorrecto
                 insercionIntermediaRecursiva(indice, lista0, lista1)                
 
@@ -182,11 +181,55 @@ def insercionIntermediaRecursiva(indice, lista0, lista1):
                 el método append porque no es lo mismo añadir adelante del nuevo número ingresado 
                 que al final de la lista, ya cuando se añade un nuevo elemento, no siempre es
                 al final de la lista. Tengo que verificar que esto es así.
-                 """
+
+                #Aquí hay un aspecto a corregir, tienes que validar que el extremo mayor no esté
+                repetido, porque si es el caso, entonces tienes que añadir el número al final de
+                la lista. Recuerda el extremo mayor es el número mayor de la lista independiente-
+                mente si está repetido o no. Esto mismo debe analizarse para el extremo menor.
+
+                """
                 lista0.insert((indice+1)+1, numero)
                 indice = lista0.index(numero)
                 insercionIntermediaRecursiva(indice, lista0, lista1)
 
+def evaluarExtremosEInsertar(sublista0, sublista1):
+    #Se definen los extremos de la primera sublista
+    extremo_menor_0 = sublista0[0]
+    extremo_mayor_0 = sublista0[len(sublista0)-1]
+
+    #Se definen los extremos de la segunda sublista
+    extremo_menor_1 = sublista1[0]
+    extremo_mayor_1 = sublista1[len(sublista1)-1]
+    """
+    Caso cuando el extremo mayor de la sublista1 es menor que el extremo menor
+    de la sublista0
+    """
+    if extremo_mayor_1 < extremo_menor_0:
+        insertarPorIzquierdaRecursivamente(0, sublista0, sublista1)
+        """
+        Caso cuando el extremo menor de la sublista1 es mayor que el extremo mayor
+        de la sublista0
+        """        
+    elif extremo_menor_1 > extremo_mayor_0:
+        insertarPorDerechaRecursivamente(sublista0, sublista1)
+        """
+        independientemente si la inserción intermedia es por izquierda o por derecha,
+        al utilizar un número como cota inferior y otro como superior, es posible determinar
+        especificamente dónde va a ser insertado el número evaluado. Es por esto que la inser-
+        ción intermedia no necesita casos especificos (por izquierda o por derecha).
+        """
+    #Considera eliminar  estos elif y agregar un simple else
+    #Este es el caso cuando la inserción intermedia se da por la izquierda        
+    elif ((extremo_menor_0 >= extremo_menor_1 and extremo_menor_0 <= extremo_mayor_1) 
+    and (extremo_mayor_0 > extremo_menor_1 and extremo_mayor_0 >= extremo_mayor_1)): 
+        insercionIntermediaRecursiva(0, sublista0, sublista1)
+
+    #Este es el caso cuando la inserción intermedia se da por la derecha    
+    elif ((extremo_menor_0 <= extremo_menor_1 and extremo_menor_0 <= extremo_mayor_1) 
+    and (extremo_mayor_0 > extremo_menor_1 and extremo_mayor_0 <= extremo_mayor_1)):
+        insercionIntermediaRecursiva(0, sublista0, sublista1)
+
+    
 def ordenarLista(lista):
 
     sublistas = dividirLista(lista)
@@ -215,9 +258,8 @@ def ordenarLista(lista):
         los hilos con la lista de sublistas clasificadas? ¿o por qué no utili-
         zar los hilos al menos en la división principal de la lista inicial?
     """
+
                         
-
-
 print("Antes: ", lista)
 ordenarLista(lista)
 #print("|-----------------------------|")
