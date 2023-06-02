@@ -7,7 +7,7 @@ lista = [16, 15, 13, 12, 11, 19, 38, 37, 36,
         35, 34, 33, 32, 8, 7, 6, 5, 4, 3, 2, 1]
          
 #lista = [8,6,4,1,7,5,3,2,1]
-listas_clasificadas = []
+sublistas_clasificadas = []
 
 def ordenarPar(sublista):
     if not (sublista[0] < sublista[1]):
@@ -116,27 +116,6 @@ def ordenarAscendentemente(sublista):
         sublista = ordenarLista(sublista)
         return sublista
 
-
-def ordenarLista(lista):
-
-    sublistas = dividirLista(lista)
-    sublista_izq = sublistas[0]
-    sublista_der = sublistas[1]
-
-    print("|-----------------------------|")
-    sublista_izq = ordenarAscendentemente(sublista_izq)
-
-    if sublista_izq is not None:
-        listas_clasificadas.append(sublista_izq)
-        print("Sublista izq: ", sublista_izq)
-
-    sublista_der = ordenarAscendentemente(sublista_der)
-
-    if sublista_der is not None:
-        listas_clasificadas.append(sublista_der)
-        print("Sublista der: ", sublista_der)
-    # Hacer el ajuste para que los finalistas ingresen solo en una lista
-
 def insertarPorIzquierdaRecursivamente(punto_de_insercion, lista0, lista1):    
     if len(lista1) > 0:        
         lista0.insert(punto_de_insercion, lista1.pop(0))
@@ -183,22 +162,65 @@ def insercionIntermediaRecursiva(indice, lista0, lista1):
                 """ En este caso sí se actualiza el indice debido a que se sabe
                 que el próximo numero (si lo hay) a evaluar es mayor que el recién ingresado """
 
+            # Caso cuando el número es igual al extremo menor o al extremo mayor
+            if extremo_menor_temporal == numero:
+                lista0.insert(indice+1, numero) # indice+1 para que el insert lo añada delante del extremo menor
+                indice = lista0.index(numero, indice+1) #para que retorne el index a por delante del extremo menor
+                #ya que al haber valores repetidos puede retornar un indice incorrecto
+                insercionIntermediaRecursiva(indice, lista0, lista1)
+
+            if extremo_mayor_temporal == numero:
+                lista0.insert(indice+2, numero) # indice+2 para que el insert lo añada delante del extremo mayor
+                indice = lista0.index(numero, indice+2) #para que retorne el index a por delante del extremo menor
+                #ya que al haber valores repetidos puede retornar un indice incorrecto
+                insercionIntermediaRecursiva(indice, lista0, lista1)                
+
             #Caso cuando el número es mayor que ambos  extremos
             if (extremo_menor_temporal < numero) and (extremo_mayor_temporal < numero):
                 """Debido a que el insert añade el elemento en la posición ante-
                 rior a la dada, entonces por eso se añade (indice+1)+1) o indice+2. No se usa
-                el método append porque no es lo mismo añadir adelante del nuevo
-                número ingresado que al final de la lista, ya cuando se añade un
-                nuevo elemento, no siempre es al final de la lista.
+                el método append porque no es lo mismo añadir adelante del nuevo número ingresado 
+                que al final de la lista, ya cuando se añade un nuevo elemento, no siempre es
+                al final de la lista. Tengo que verificar que esto es así.
                  """
                 lista0.insert((indice+1)+1, numero)
                 indice = lista0.index(numero)
                 insercionIntermediaRecursiva(indice, lista0, lista1)
 
+def ordenarLista(lista):
+
+    sublistas = dividirLista(lista)
+    sublista_izq = sublistas[0]
+    sublista_der = sublistas[1]
+
+    print("|-----------------------------|")
+    sublista_izq = ordenarAscendentemente(sublista_izq)
+
+    if sublista_izq is not None:
+        sublistas_clasificadas.append(sublista_izq)
+        print("Sublista izq: ", sublista_izq)
+
+    sublista_der = ordenarAscendentemente(sublista_der)
+
+    if sublista_der is not None:
+        sublistas_clasificadas.append(sublista_der)
+        print("Sublista der: ", sublista_der)
+    
+    """
+        Es posible que aquí se añada la lógica para que al acabarse las llamadas
+        entonces se ejecute la lógica para organizar los finalistas, así evito
+        recorrer el "arbol" dos veces. Es decir, si cuando el proceso recursivo
+        termina este empieza a devolverse de donde terminó, ¿por qué no aprove-
+        char esa oportunidad para ser más eficiente? ¿O es más rápido utilizar 
+        los hilos con la lista de sublistas clasificadas? ¿o por qué no utili-
+        zar los hilos al menos en la división principal de la lista inicial?
+    """
+                        
+
 
 print("Antes: ", lista)
 ordenarLista(lista)
-print("|-----------------------------|")
+#print("|-----------------------------|")
 # print("Después: ", lista)
 print("|------------- FINALISTAS ----------------|")
-print(lado_izq)
+print(sublistas_clasificadas)
