@@ -23,7 +23,7 @@ def ordenarPares(sublista):
     if not (sublista[0] < sublista[1]):
         temporal = sublista[0]
         sublista[0] = sublista[1]
-        sublista[1] = temporal
+        sublista[1] = temporal        
 
     # Comparamos el otro par
     if not (sublista[2] < sublista[3]):
@@ -133,6 +133,21 @@ def insertarPorDerechaRecursivamente(lista0, lista1):
         
 #def insertarPorIzquierdaSimple(lista0, lista1):
 #    lista0.insert(0, lista1[:])
+
+def encontrarUltimoExtremoMayorRepetido(contador, extremo_mayor, sublista0):
+    numero = 0
+    indice = (len(sublista0) - 1) - contador
+        
+    if contador == 0:
+        numero = sublista0[len(sublista0) - 1]
+    else:
+        numero = sublista0[indice]                      
+        
+    if numero == extremo_mayor:
+        return indice
+    else:
+        contador += 1     
+        return encontrarUltimoExtremoMayorRepetido(contador, extremo_mayor, sublista0)
 
 def insercionIntermediaRecursiva(indice, lista0, lista1):
     if indice < (len(lista0)-1):
