@@ -248,50 +248,74 @@ def encontrarUltimoNumeroIndiceRepetido(contador, numero_indice, sublista0):
         return encontrarUltimoNumeroIndiceRepetido(contador, numero_indice, sublista0)
 
 def insercionIntermediaRecursivaMejorada(indice, numero, sublista0, sublista1):
-          
-    if indice < (len(sublista0)):
-        if len(sublista1) >= 1:
-                            
-            """ Se cae en cuenta que se puede utilizar el número nuevo insertado a la lista
-            como recurso para ordenar correctamente la lista. Además se sabe que
-            el próximo número a ingresar es mayor que el recién ingresado """
 
-            # Caso cuando el número es menor que el índice (se debe tratar el caso de índice repetido)
-            # Sea el número menor o igual al número del indice, se inserta por izquierda
-            if numero <= sublista0[indice]:
-                sublista0.insert(indice, numero)
-                # Como se insertó un nuevo número, se necesita actualizar el indice
-                indice += 1  
-                numero = sublista1.pop(0)          
-                insercionIntermediaRecursivaMejorada(indice, numero, sublista0, sublista1)
-                
-            # Caso cuando el número es mayor al índice (se debe tratar el caso de índice repetido)
-            elif numero > sublista0[indice]:                
-                # Se verifica que el indice está actualizado correctamente (por causa de repetidos)
-                if sublista0[indice] == sublista0[indice+1]:
-                   indice = encontrarUltimoNumeroIndiceRepetido(0, sublista0[indice], sublista0)                   
-                   
-                if sublista0[indice] != sublista0[indice+1]:                    
-                    if numero < sublista0[indice+1]:
-                        indice += 1
-                        sublista0.insert(indice, numero)
-                        numero = sublista1.pop(0)
-                        insercionIntermediaRecursivaMejorada(indice, numero, sublista0, sublista1)
-                    else:
-                        # Aquí el aumento +1 del indice cubre solo el aspecto de la actualización
-                        indice += 1                   
-                        insercionIntermediaRecursivaMejorada(indice, numero, sublista0, sublista1)        
-        elif len(sublista1) == 0:
-            """
-            Aquí debes tener presente que en la primera llamada el índice como
-            máximo tiene un valor de len(sublista0) - 2
-            """
-            if numero <= sublista0[indice]:                
-                sublista0.insert(indice, numero)
-            elif numero < sublista0[indice+1]:
-                sublista0.insert(indice+1, numero)
-            else:
-                sublista0.insert(indice+2, numero)             
+    if indice < (len(sublista0) - 1) and len(sublista1) >= 1:
+        """ Corresponde tratar el caso cuando la lista0 tiene menos elementos que la lista1
+        y ya se llegó al final """
+
+        """ Se cae en cuenta que se puede utilizar el número nuevo insertado a la lista
+        como recurso para ordenar correctamente la lista. Además se sabe que
+        el próximo número a ingresar es mayor que el recién ingresado """
+
+        # Caso cuando el número es menor que el índice (se debe tratar el caso de índice repetido)
+        # Sea el número menor o igual al número del indice, se inserta por izquierda
+        if numero <= sublista0[indice]:
+            sublista0.insert(indice, numero)
+            # Como se insertó un nuevo número, se necesita actualizar el indice
+            indice += 1
+            numero = sublista1.pop(0)
+            insercionIntermediaRecursivaMejorada(
+                indice, numero, sublista0, sublista1)
+        # Caso cuando el número es mayor al índice (se debe tratar el caso de índice repetido)
+        elif numero > sublista0[indice]:
+            # Se verifica que el indice está actualizado correctamente (por causa de repetidos)
+            if sublista0[indice] == sublista0[indice+1]:
+                indice = encontrarUltimoNumeroIndiceRepetido(
+                    0, sublista0[indice], sublista0)
+                print("el último  repetido es:", indice,
+                        "con len(sublista0):", len(sublista0))
+                insercionIntermediaRecursivaMejorada(
+                    indice, numero, sublista0, sublista1)
+            elif sublista0[indice] != sublista0[indice+1]:
+                if numero < sublista0[indice+1]:
+                    sublista0.insert(indice+1, numero)
+                    numero = sublista1.pop(0)
+                    # Se aumenta nuevamente el indice para que se ubique adecuadamente
+                    indice += 1
+                    insercionIntermediaRecursivaMejorada(
+                        indice, numero, sublista0, sublista1)
+                elif numero == sublista0[indice+1]:
+                    sublista0.insert(indice+1, numero)
+                    numero = sublista1.pop(0)
+                    insercionIntermediaRecursivaMejorada(
+                        indice, numero, sublista0, sublista1)
+                else:
+                    # Aquí el aumento +1 del indice cubre solo el aspecto de la actualización
+                    indice += 1
+                    insercionIntermediaRecursivaMejorada(
+                        indice, numero, sublista0, sublista1)
+
+    elif indice == (len(sublista0) - 1) and len(sublista1) >= 1:
+        print("entró cuando indice == ultimo. El último repetido es:",
+                indice, "con len(sublista0):", len(sublista0))
+        if numero > sublista0[indice]:
+            sublista0.append(numero)
+            insertarPorDerechaRecursivamente(sublista0, sublista1)
+        else:
+            sublista0.insert(indice, numero)
+            insercionIntermediaRecursivaMejorada(
+                indice, numero, sublista0, sublista1)
+
+    elif indice == (len(sublista0) - 1) and len(sublista1) == 0:
+
+        """
+        Aquí debes tener presente que en la primera llamada el índice como
+        máximo tiene un valor de len(sublista0) - 2
+        """
+        if numero <= sublista0[indice]:
+            sublista0.insert(indice, numero)
+        elif numero > sublista0[indice+1]:
+            sublista0.insert(indice+1, numero)             
 
 def evaluarExtremosEInsertar(sublista0, sublista1):
     #Se definen los extremos de la primera sublista
