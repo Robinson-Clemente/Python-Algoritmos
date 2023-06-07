@@ -271,9 +271,7 @@ def insercionIntermediaRecursivaMejorada(indice, numero, sublista0, sublista1):
             # Se verifica que el indice está actualizado correctamente (por causa de repetidos)
             if sublista0[indice] == sublista0[indice+1]:
                 indice = encontrarUltimoNumeroIndiceRepetido(
-                    0, sublista0[indice], sublista0)
-                print("el último  repetido es:", indice,
-                        "con len(sublista0):", len(sublista0))
+                    0, sublista0[indice], sublista0)                
                 insercionIntermediaRecursivaMejorada(
                     indice, numero, sublista0, sublista1)
             elif sublista0[indice] != sublista0[indice+1]:
@@ -294,12 +292,13 @@ def insercionIntermediaRecursivaMejorada(indice, numero, sublista0, sublista1):
                     indice += 1
                     insercionIntermediaRecursivaMejorada(
                         indice, numero, sublista0, sublista1)
-
-    elif indice == (len(sublista0) - 1) and len(sublista1) >= 1:
-        print("entró cuando indice == ultimo. El último repetido es:",
-                indice, "con len(sublista0):", len(sublista0))
+        """
+        Caso cuando se está en el último elemento de la primera lista pero la segunda
+        todavía tiene elementos.
+        """
+    elif indice == (len(sublista0) - 1) and len(sublista1) >= 1:        
         if numero > sublista0[indice]:
-            sublista0.append(numero)
+            sublista0.append(numero)            
             insertarPorDerechaRecursivamente(sublista0, sublista1)
         else:
             sublista0.insert(indice, numero)
@@ -307,15 +306,19 @@ def insercionIntermediaRecursivaMejorada(indice, numero, sublista0, sublista1):
                 indice, numero, sublista0, sublista1)
 
     elif indice == (len(sublista0) - 1) and len(sublista1) == 0:
-
-        """
-        Aquí debes tener presente que en la primera llamada el índice como
-        máximo tiene un valor de len(sublista0) - 2
-        """
         if numero <= sublista0[indice]:
             sublista0.insert(indice, numero)
-        elif numero > sublista0[indice+1]:
-            sublista0.insert(indice+1, numero)             
+        else:
+            sublista0.append(numero)
+                        
+    elif indice < (len(sublista0)) and len(sublista1) == 0:
+        
+        if numero > sublista0[indice] and numero < sublista0[indice+1]:
+            sublista0.insert(indice+1, numero)            
+        elif numero > sublista0[indice] and numero > sublista0[indice+1]:
+            sublista0.insert(indice+3, numero)                        
+        else:
+            sublista0.insert(indice, numero)             
 
 def evaluarExtremosEInsertar(sublista0, sublista1):
     #Se definen los extremos de la primera sublista
