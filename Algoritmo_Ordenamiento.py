@@ -96,7 +96,7 @@ def ordenarAscendentemente(sublista):
             sublista.remove(temporal)
             sublista.insert(1, temporal)
         """
-            
+        
         sublista = ordenarPar(0, 1, sublista)   
         sublista = ordenarPar(0, 2, sublista)   
         return ordenarPar(1, 2, sublista)
@@ -108,7 +108,7 @@ def ordenarAscendentemente(sublista):
         return sublista
 
     else:
-        sublista = ordenarLista(sublista)
+        sublista = generarSublistas(sublista)
         return sublista
 
 def insertarPorIzquierdaRecursivamente(punto_de_insercion, lista0, lista1):    
@@ -239,6 +239,18 @@ def encontrarUltimoNumeroIndiceRepetido(contador, numero_indice, sublista0):
         contador += 1     
         return encontrarUltimoNumeroIndiceRepetido(contador, numero_indice, sublista0)
 
+# Este método busca el primer número mayor de la lista de izquierda a derecha
+def encontrarProximoMayorIgual(indice, numero, sublista0):
+    
+    if numero <= sublista0[indice]:
+        return indice
+    else:
+        indice += 1
+        if indice < len(sublista0):
+            return encontrarProximoMayorIgual(indice, numero, sublista0)
+        else:
+            return indice
+        
 def insercionIntermediaRecursivaMejorada(indice, numero, sublista0, sublista1):
 
     if indice < (len(sublista0) - 1) and len(sublista1) >= 1:
@@ -308,18 +320,30 @@ def insercionIntermediaRecursivaMejorada(indice, numero, sublista0, sublista1):
                         
     elif indice < (len(sublista0)) and len(sublista1) == 0:
         
-        if numero > sublista0[indice] and numero < sublista0[indice+1]:
+        """if numero > sublista0[indice] and numero < sublista0[indice+1]:
             sublista0.insert(indice+1, numero)            
         elif numero > sublista0[indice] and numero > sublista0[indice+1]:
-            """
+        """
+        """
             Aquí se podría llamar a un método que empiece a aumentar el indice
             hasta que consiga el numero que es mayor que él y lo agrege delante
             de este, sino lo consigue, entonces se usa lista0.append(numero)
-            """
-            sublista0.insert(indice+2, numero)                        
-        else:
-            sublista0.insert(indice, numero)                   
-
+            
+            La idea anterior se podría lograr con el método
+            encontrarUltimoNumeroIndiceRepetido
+        """
+        """             sublista0.insert(indice+2, numero)                                  
+        elif numero < sublista0[indice] and numero < sublista0[indice+1]:
+            sublista0.insert(indice, numero)
+        elif numero <= sublista0[indice] and numero < sublista0[indice+1]:
+             sublista0.insert(indice, numero)
+        elif numero <= sublista0[indice] and numero <= sublista0[indice+1]:
+            sublista0.insert(indice, numero)
+        """
+        
+        indice = encontrarProximoMayorIgual(indice, numero, sublista0)
+        sublista0.insert(indice, numero)
+                 
 def evaluarExtremosEInsertar(sublista0, sublista1):
     #Se definen los extremos de la primera sublista
     extremo_menor_0 = sublista0[0]
@@ -363,7 +387,22 @@ def evaluarExtremosEInsertar(sublista0, sublista1):
         insercionIntermediaRecursiva(0, sublista0, sublista1)
     """
     
-def ordenarLista(lista):
+    
+def ordenarSublistas(sublistas):
+    """
+    Debido a las pruebas que se hicieron, se sabe que es posible tener una can
+    tidad par o impar de finalistas.
+    """
+    #cantidad_finalistas = 0
+    cantidad_finalistas = len(sublistas)
+
+    if cantidad_finalistas % 2 == 0:
+        pass
+        
+        
+
+
+def generarSublistas(lista):
 
     sublistas = dividirLista(lista)
     sublista_izq = sublistas[0]
@@ -396,8 +435,9 @@ def ordenarLista(lista):
 
                         
 print("Antes: ", lista)
-ordenarLista(lista)
+generarSublistas(lista)
 #print("|-----------------------------|")
 # print("Después: ", lista)
 print("|------------- FINALISTAS ----------------|")
 print(sublistas_clasificadas)
+
