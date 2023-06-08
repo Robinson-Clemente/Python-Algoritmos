@@ -3,43 +3,34 @@
 # Se realiza algoritmo de ordenación ascendente de forma recursiva
 
 
-lista = [16, 15, 13, 12, 11, 19, 38, 37, 36,
-        35, 34, 33, 32, 8, 7, 6, 5, 4, 3, 2, 1]
+#lista = [16, 15, 13, 12, 11, 19, 38, 37, 36,
+        #35, 34, 33, 32, 8, 7, 6, 5, 4, 3, 2, 1]
          
 #lista = [8,6,4,1,7,5,3,2,1]
+lista = [1,2,1,2,1,2,1,2,1,2,1,2]
 sublistas_clasificadas = []
 
-def ordenarPar(sublista):
-    if not (sublista[0] < sublista[1]):
-        temporal = sublista[0]
-        sublista[0] = sublista[1]
-        sublista[1] = temporal
+def ordenarPar(indice0, indice1, sublista):
+    if not (sublista[indice0] < sublista[indice1]):
+        temporal = sublista[indice0]
+        sublista[indice0] = sublista[indice1]
+        sublista[indice1] = temporal
 
-        return sublista
-
+    return sublista
 
 def ordenarPares(sublista):
-    # Comparamos el primer par
-    if not (sublista[0] < sublista[1]):
-        temporal = sublista[0]
-        sublista[0] = sublista[1]
-        sublista[1] = temporal        
-
-    # Comparamos el otro par
-    if not (sublista[2] < sublista[3]):
-        temporal = sublista[2]
-        sublista[2] = sublista[3]
-        sublista[3] = temporal
-
-        return sublista
-
+    # Comparamos el primer par y el segundo par
+    sublista = ordenarPar(0, 1, sublista)    
+    return ordenarPar(2, 3, sublista) 
+        
+""" def ordenarTriplete(indice0, indice1, sublista):
+    if not (sublista[indice0] < sublista[indice1]):       
+            temporal = sublista[indice1]
+            sublista.remove(temporal)
+            sublista.insert(indice0, temporal)            
+    return sublista """
 
 # Este método debe ser llamado estando ya los pares ordenados
-
-
-def ordenarEntrePares(sublista):
-    pass
-
 
 def dividirLista(lista):
     # Se divide la lista
@@ -61,7 +52,7 @@ def ordenarAscendentemente(sublista):
 
     if len(sublista) == 4:
 
-        ordenarPares(sublista)
+        sublista = ordenarPares(sublista)
 
         """
         Nos apoyamos en el extremos izquierdos de
@@ -89,10 +80,11 @@ def ordenarAscendentemente(sublista):
 
     elif len(sublista) == 3:
 
-        ordenarPar(sublista)
+        #ordenarPar(0, 1, sublista)
 
         # Procedemos a comparar con el extremo único
         # Primer elemento del par
+        """
         if not (sublista[0] < sublista[2]):
             temporal = sublista[2]
             sublista.remove(temporal)
@@ -103,11 +95,14 @@ def ordenarAscendentemente(sublista):
             temporal = sublista[2]
             sublista.remove(temporal)
             sublista.insert(1, temporal)
-
-        return sublista
+        """
+            
+        sublista = ordenarPar(0, 1, sublista)   
+        sublista = ordenarPar(0, 2, sublista)   
+        return ordenarPar(1, 2, sublista)
 
     elif len(sublista) == 2:
-        return ordenarPar(sublista)
+        return ordenarPar(0, 1, sublista)
 
     elif len(sublista) == 1:
         return sublista
@@ -120,7 +115,7 @@ def insertarPorIzquierdaRecursivamente(punto_de_insercion, lista0, lista1):
     if len(lista1) > 0:        
         lista0.insert(punto_de_insercion, lista1.pop(0))
 
-    if len(lista1)>0:
+    if len(lista1) > 0:
         punto_de_insercion += 1
         insertarPorIzquierdaRecursivamente(punto_de_insercion, lista0, lista1)
 
@@ -130,9 +125,6 @@ def insertarPorDerechaRecursivamente(lista0, lista1):
 
     if len(lista1) > 0:        
         insertarPorDerechaRecursivamente(lista0, lista1)
-        
-#def insertarPorIzquierdaSimple(lista0, lista1):
-#    lista0.insert(0, lista1[:])
 
 def encontrarUltimoExtremoMayorRepetido(contador, extremo_mayor, sublista0):
     numero = 0
@@ -383,12 +375,14 @@ def ordenarLista(lista):
     if sublista_izq is not None:
         sublistas_clasificadas.append(sublista_izq)
         print("Sublista izq: ", sublista_izq)
+        
 
     sublista_der = ordenarAscendentemente(sublista_der)
 
     if sublista_der is not None:
         sublistas_clasificadas.append(sublista_der)
         print("Sublista der: ", sublista_der)
+        
     
     """
         Es posible que aquí se añada la lógica para que al acabarse las llamadas
