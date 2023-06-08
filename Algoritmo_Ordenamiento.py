@@ -274,7 +274,7 @@ def insercionIntermediaRecursivaMejorada(indice, numero, sublista0, sublista1):
                     0, sublista0[indice], sublista0)                
                 insercionIntermediaRecursivaMejorada(
                     indice, numero, sublista0, sublista1)
-            elif sublista0[indice] != sublista0[indice+1]:
+            else:
                 if numero < sublista0[indice+1]:
                     sublista0.insert(indice+1, numero)
                     numero = sublista1.pop(0)
@@ -285,6 +285,7 @@ def insercionIntermediaRecursivaMejorada(indice, numero, sublista0, sublista1):
                 elif numero == sublista0[indice+1]:
                     sublista0.insert(indice+1, numero)
                     numero = sublista1.pop(0)
+                    indice += 1
                     insercionIntermediaRecursivaMejorada(
                         indice, numero, sublista0, sublista1)
                 else:
@@ -302,6 +303,8 @@ def insercionIntermediaRecursivaMejorada(indice, numero, sublista0, sublista1):
             insertarPorDerechaRecursivamente(sublista0, sublista1)
         else:
             sublista0.insert(indice, numero)
+            indice += 1
+            numero = sublista1.pop(0)
             insercionIntermediaRecursivaMejorada(
                 indice, numero, sublista0, sublista1)
 
@@ -316,9 +319,14 @@ def insercionIntermediaRecursivaMejorada(indice, numero, sublista0, sublista1):
         if numero > sublista0[indice] and numero < sublista0[indice+1]:
             sublista0.insert(indice+1, numero)            
         elif numero > sublista0[indice] and numero > sublista0[indice+1]:
-            sublista0.insert(indice+3, numero)                        
+            """
+            Aquí se podría llamar a un método que empiece a aumentar el indice
+            hasta que consiga el numero que es mayor que él y lo agrege delante
+            de este, sino lo consigue, entonces se usa lista0.append(numero)
+            """
+            sublista0.insert(indice+2, numero)                        
         else:
-            sublista0.insert(indice, numero)             
+            sublista0.insert(indice, numero)                   
 
 def evaluarExtremosEInsertar(sublista0, sublista1):
     #Se definen los extremos de la primera sublista
