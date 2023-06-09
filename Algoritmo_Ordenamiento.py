@@ -3,11 +3,11 @@
 # Se realiza algoritmo de ordenación ascendente de forma recursiva
 
 
-#lista = [16, 15, 13, 12, 11, 19, 38, 37, 36,
-        #35, 34, 33, 32, 8, 7, 6, 5, 4, 3, 2, 1]
+lista = [16, 15, 13, 12, 11, 19, 38, 37, 36,
+        35, 34, 33, 32, 8, 7, 6, 5, 4, 3, 2, 1]
          
 #lista = [8,6,4,1,7,5,3,2,1]
-lista = [1,2,1,2,1,2,1,2,1,2,1,2]
+#lista = [1,2,1,2,1,2,1,2,1,2,1,2]
 sublistas_clasificadas = []
 
 def ordenarPar(indice0, indice1, sublista):
@@ -121,7 +121,7 @@ def insertarPorIzquierdaRecursivamente(punto_de_insercion, lista0, lista1):
 
 def insertarPorDerechaRecursivamente(lista0, lista1):    
     if len(lista1) > 0:        
-        lista0.append(lista3.pop(0))
+        lista0.append(lista1.pop(0))
 
     if len(lista1) > 0:        
         insertarPorDerechaRecursivamente(lista0, lista1)
@@ -339,7 +339,7 @@ def insercionIntermediaRecursivaMejorada(indice, numero, sublista0, sublista1):
              sublista0.insert(indice, numero)
         elif numero <= sublista0[indice] and numero <= sublista0[indice+1]:
             sublista0.insert(indice, numero)
-        """
+        """        
         
         indice = encontrarProximoMayorIgual(indice, numero, sublista0)
         sublista0.insert(indice, numero)
@@ -373,7 +373,9 @@ def evaluarExtremosEInsertar(sublista0, sublista1):
     else:
         numero = sublista1.pop(0)
         insercionIntermediaRecursivaMejorada(0, numero, sublista0, sublista1)
-        
+    
+    return sublista0
+
     """
     #Este es el caso cuando la inserción intermedia se da por la izquierda        
     elif ((extremo_menor_0 >= extremo_menor_1 and extremo_menor_0 <= extremo_mayor_1) 
@@ -388,40 +390,30 @@ def evaluarExtremosEInsertar(sublista0, sublista1):
     """
     
     
-def ordenarSublistas(sublistas):
-    """
-    Debido a las pruebas que se hicieron, se sabe que es posible tener una can
-    tidad par o impar de finalistas.
-    """
-    #cantidad_finalistas = 0
-    cantidad_finalistas = len(sublistas)
-
-    if cantidad_finalistas % 2 == 0:
-        pass
-        
-        
-
+    
+def fusionarSublistas(finalistas):    
+    if len(finalistas) > 1:
+        lista = evaluarExtremosEInsertar(finalistas.pop(0), finalistas.pop(0))
+        finalistas.append(lista)
+        fusionarSublistas(finalistas)
 
 def generarSublistas(lista):
 
     sublistas = dividirLista(lista)
     sublista_izq = sublistas[0]
-    sublista_der = sublistas[1]
-
-    print("|-----------------------------|")
+    sublista_der = sublistas[1]        
+    
     sublista_izq = ordenarAscendentemente(sublista_izq)
 
     if sublista_izq is not None:
         sublistas_clasificadas.append(sublista_izq)
-        print("Sublista izq: ", sublista_izq)
-        
+        print("Sublista izq: ", sublista_izq)        
 
     sublista_der = ordenarAscendentemente(sublista_der)
 
     if sublista_der is not None:
         sublistas_clasificadas.append(sublista_der)
         print("Sublista der: ", sublista_der)
-        
     
     """
         Es posible que aquí se añada la lógica para que al acabarse las llamadas
@@ -433,11 +425,14 @@ def generarSublistas(lista):
         zar los hilos al menos en la división principal de la lista inicial?
     """
 
-                        
-print("Antes: ", lista)
-generarSublistas(lista)
-#print("|-----------------------------|")
-# print("Después: ", lista)
+                      
+print("|------------- ANTES ----------------|")
+print(lista)
 print("|------------- FINALISTAS ----------------|")
-print(sublistas_clasificadas)
+generarSublistas(lista)
+print("Finalistas: ", sublistas_clasificadas)
+print("|------------- LISTA ORDENADA ----------------|")    
+fusionarSublistas(sublistas_clasificadas)
+print(sublistas_clasificadas[0])
+
 
