@@ -6,8 +6,8 @@
 lista = [16, 15, 13, 12, 11, 19, 38, 37, 36,
         35, 34, 33, 32, 8, 7, 6, 5, 4, 3, 2, 1]
          
-#lista = [8,6,4,1,7,5,3,2,1]
-#lista = [1,2,1,2,1,2,1,2,1,2,1,2]
+#lista = [8,6,4,1,7,7,7,7,1,7,7,7,5,3,2,1]
+lista = [1,2,1,2,1,2,1,2,1,2,1,2,1,1]
 sublistas_clasificadas = []
 
 def ordenarPar(indice0, indice1, sublista):
@@ -219,7 +219,11 @@ def encontrarUltimoNumeroIndiceRepetido(contador, numero_indice, sublista0):
 def encontrarProximoMayorIgual(indice, numero, sublista0):    
     if numero <= sublista0[indice]:
         return indice
-    else:        
+    else:
+        """
+        Aquí se verifica que el indice a retornar no se salga del rango  de la
+        lista
+        """       
         if (indice+1) < len(sublista0):
             indice += 1
             return encontrarProximoMayorIgual(indice, numero, sublista0)
@@ -317,6 +321,27 @@ def insercionIntermediaRecursivaMejorada(indice, numero, sublista0, sublista1):
         
         indice = encontrarProximoMayorIgual(indice, numero, sublista0)
         sublista0.insert(indice, numero)
+
+def insercionIntermediaRecursivaSimplificada(indice, sublista0, sublista1):
+    """
+    A diferencia del método anterior, al limitarse el uso de sublista1.pop(0)
+    dentro del condicional y dentro del presente método hace que el código
+    solo necesite de un condicional, ya que el cambio de estado del tamaño
+    de la lista solo ocurre dentro de estos.
+    """        
+    if (indice < len(sublista0)) and (len(sublista1) >= 1):    
+        numero = sublista1.pop(0)
+        indice = encontrarProximoMayorIgual(indice, numero, sublista0)
+        """
+        Aquí no importa si el número está repetido porque esta sería
+        la primera ocurrencia de dicho numero de la sublista0.
+        """
+        if numero <= sublista0[indice]:
+            sublista0.insert(indice, numero)
+            insercionIntermediaRecursivaSimplificada(indice, sublista0, sublista1)
+        else:            
+            sublista0.insert(indice+1, numero)
+            insercionIntermediaRecursivaSimplificada(indice, sublista0, sublista1)
                  
 def evaluarExtremosEInsertar(sublista0, sublista1):
     #Se definen los extremos de la primera sublista
@@ -346,7 +371,8 @@ def evaluarExtremosEInsertar(sublista0, sublista1):
         """
     else:
         numero = sublista1.pop(0)
-        insercionIntermediaRecursivaMejorada(0, numero, sublista0, sublista1)
+        #insercionIntermediaRecursivaMejorada(0, numero, sublista0, sublista1)        
+        insercionIntermediaRecursivaSimplificada(0, sublista0, sublista1)
     
     return sublista0
 
