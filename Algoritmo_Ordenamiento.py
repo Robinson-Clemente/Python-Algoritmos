@@ -3,10 +3,10 @@
 # Se realiza algoritmo de ordenación ascendente de forma recursiva
 
 
-lista = [16, 15, 13, 12, 11, 19, 38, 37, 36,
-        35, 34, 33, 32, 8, 7, 6, 5, 4, 3, 2, 1]
+#lista = [16, 15, 13, 12, 11, 19, 38, 37, 36,
+        #35, 34, 33, 32, 8, 7, 6, 5, 4, 3, 2, 1]
          
-#lista = [8,6,4,1,7,5,3,2,1]
+lista = [8,6,4,1,7,5,3,2,1]
 #lista = [1,2,1,2,1,2,1,2,1,2,1,2]
 sublistas_clasificadas = []
 
@@ -15,22 +15,21 @@ def ordenarPar(indice0, indice1, sublista):
         temporal = sublista[indice0]
         sublista[indice0] = sublista[indice1]
         sublista[indice1] = temporal
-
+        
     return sublista
+
+def ordenarParEspecial(indice0, indice1, sublista):
+    if not (sublista[indice0] < sublista[indice1]):
+        temporal = sublista[indice1]
+        sublista.pop(indice1)
+        sublista.insert(indice0, temporal)
+        
+    return  sublista 
 
 def ordenarPares(sublista):
     # Comparamos el primer par y el segundo par
     sublista = ordenarPar(0, 1, sublista)    
-    return ordenarPar(2, 3, sublista) 
-        
-""" def ordenarTriplete(indice0, indice1, sublista):
-    if not (sublista[indice0] < sublista[indice1]):       
-            temporal = sublista[indice1]
-            sublista.remove(temporal)
-            sublista.insert(indice0, temporal)            
-    return sublista """
-
-# Este método debe ser llamado estando ya los pares ordenados
+    return ordenarPar(2, 3, sublista)
 
 def dividirLista(lista):
     # Se divide la lista
@@ -47,35 +46,26 @@ def dividirLista(lista):
 
     return temporal_list
 
-
 def ordenarAscendentemente(sublista):
-
     if len(sublista) == 4:
-
-        sublista = ordenarPares(sublista)
-
+        
+        sublista = ordenarPares(sublista)   
+        
         """
-        Nos apoyamos en el extremos izquierdos de
-        cada par para comparar eficientemente
-        """
-        if not (sublista[0] < sublista[2]):
-            temporal = sublista[2]
-            sublista.remove(temporal)
-            sublista.insert(0, temporal)
-
-        """
-        Como hubo inserción al inicio de la lista entonces la
-        referencia a los elementos es la anterior + 1
-
-        Además, como se sabe que el elemento en la posición 0
-        es menor que el próximo a comparar entonces este último
-        nunca puede ser ubicado a la izquierda del mismo
-        """
-        if not (sublista[1] < sublista[3]):
-            temporal = sublista[3]
-            sublista.remove(temporal)
-            sublista.insert(1, temporal)
-
+        A causa de las pruebas realizadas se utiliza el método
+        'ordenarParEspecial' debido a que en algunos casos de
+        ordenación resulta más eficiente.
+        
+        Por ejemplo: si la sublista = [1,2,2,1] el método ya mencionado
+        logrará el mismo objetivo más eficientemente.        
+        """                  
+        #Se comparan los menores entre los pares      
+        sublista = ordenarParEspecial(0, 2, sublista)
+        #Se comparan los mayores entre los pares         
+        sublista = ordenarParEspecial(1, 3, sublista)
+        #Se compara el mayor del primer par con el menor del segundo par 
+        sublista = ordenarParEspecial(1, 2, sublista)
+        
         return sublista
 
     elif len(sublista) == 3:
@@ -125,7 +115,8 @@ def insertarPorDerechaRecursivamente(lista0, lista1):
 
     if len(lista1) > 0:        
         insertarPorDerechaRecursivamente(lista0, lista1)
-
+        
+#Desusado
 def encontrarUltimoExtremoMayorRepetido(contador, extremo_mayor, sublista0):
     numero = 0
     indice = (len(sublista0) - 1) - contador
@@ -140,7 +131,8 @@ def encontrarUltimoExtremoMayorRepetido(contador, extremo_mayor, sublista0):
     else:
         contador += 1     
         return encontrarUltimoExtremoMayorRepetido(contador, extremo_mayor, sublista0)
-
+    
+#Desusado
 def insercionIntermediaRecursiva(indice, lista0, lista1):
     if indice < (len(lista0)-1):
         extremo_menor_temporal = lista0[indice]
@@ -392,7 +384,7 @@ def evaluarExtremosEInsertar(sublista0, sublista1):
     
     
 def fusionarSublistas(finalistas):    
-    if len(finalistas) > 1:
+    if len(finalistas) > 1:        
         lista = evaluarExtremosEInsertar(finalistas.pop(0), finalistas.pop(0))
         finalistas.append(lista)
         fusionarSublistas(finalistas)
@@ -425,7 +417,6 @@ def generarSublistas(lista):
         zar los hilos al menos en la división principal de la lista inicial?
     """
 
-                      
 print("|------------- ANTES ----------------|")
 print(lista)
 print("|------------- FINALISTAS ----------------|")
