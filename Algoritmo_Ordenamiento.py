@@ -3,11 +3,14 @@
 # Se realiza algoritmo de ordenación ascendente de forma recursiva
 
 
-lista = [16, 15, 13, 12, 11, 19, 38, 37, 36,
-        35, 34, 33, 32, 8, 7, 6, 5, 4, 3, 2, 1]
+#lista = [16, 15, 13, 12, 11, 19, 38, 37, 36,
+       #35, 34, 33, 32, 8, 7, 6, 5, 4, 3, 2, 1]
          
 #lista = [8,6,4,1,7,7,7,7,1,7,7,7,5,3,2,1]
-lista = [1,2,1,2,1,2,1,2,1,2,1,2,1,1]
+#lista = [1,2,3,1,2,3,12,3,1,2,3,5,4,1]
+#lista = [1,2,3,4,5,6,7,8,9]
+#lista.reverse()
+#lista = []
 sublistas_clasificadas = []
 
 def ordenarPar(indice0, indice1, sublista):
@@ -48,8 +51,7 @@ def dividirLista(lista):
 
 def ordenarAscendentemente(sublista):
     if len(sublista) == 4:        
-        sublista = ordenarPares(sublista)   
-        
+        sublista = ordenarPares(sublista)
         """
         A causa de las pruebas realizadas se utiliza el método
         'ordenarParEspecial' debido a que en algunos casos de
@@ -63,10 +65,8 @@ def ordenarAscendentemente(sublista):
         #Se comparan los mayores entre los pares         
         sublista = ordenarParEspecial(1, 3, sublista)
         #Se compara el mayor del primer par con el menor del segundo par 
-        sublista = ordenarParEspecial(1, 2, sublista)
-        
+        sublista = ordenarParEspecial(1, 2, sublista)        
         return sublista
-
     elif len(sublista) == 3:
         """
         Se ordena el primer par y luego se compara cada elemento de dicho par con el
@@ -75,16 +75,12 @@ def ordenarAscendentemente(sublista):
         sublista = ordenarParEspecial(0, 1, sublista)   
         sublista = ordenarParEspecial(0, 2, sublista)   
         return ordenarParEspecial(1, 2, sublista)
-
     elif len(sublista) == 2:
         return ordenarPar(0, 1, sublista)
-
     elif len(sublista) == 1:
-        return sublista
-
+        return sublista            
     else:
-        sublista = generarSublistas(sublista)
-        return sublista
+        generarSublistas(sublista)                
 
 def insertarPorIzquierdaRecursivamente(punto_de_insercion, lista0, lista1):    
     if len(lista1) > 0:        
@@ -369,33 +365,13 @@ def evaluarExtremosEInsertar(sublista0, sublista1):
         especificamente dónde va a ser insertado el número evaluado. Es por esto que la inser-
         ción intermedia no necesita especificar casos especificos (por izquierda o por derecha).
         """
-    else:
-        numero = sublista1.pop(0)
-        #insercionIntermediaRecursivaMejorada(0, numero, sublista0, sublista1)        
+    else:   
         insercionIntermediaRecursivaSimplificada(0, sublista0, sublista1)
     
     return sublista0
 
-    """
-    #Este es el caso cuando la inserción intermedia se da por la izquierda        
-    elif ((extremo_menor_0 >= extremo_menor_1 and extremo_menor_0 <= extremo_mayor_1) 
-    and (extremo_mayor_0 > extremo_menor_1 and extremo_mayor_0 >= extremo_mayor_1)): 
-        insercionIntermediaRecursiva(0, sublista0, sublista1)
-    """    
-    """
-    #Este es el caso cuando la inserción intermedia se da por la derecha    
-    elif ((extremo_menor_0 <= extremo_menor_1 and extremo_menor_0 <= extremo_mayor_1) 
-    and (extremo_mayor_0 > extremo_menor_1 and extremo_mayor_0 <= extremo_mayor_1)):
-        insercionIntermediaRecursiva(0, sublista0, sublista1)
-    """
-    
-def fusionarSublistas(finalistas):    
-    if len(finalistas) > 1:        
-        lista = evaluarExtremosEInsertar(finalistas.pop(0), finalistas.pop(0))
-        finalistas.append(lista)
-        fusionarSublistas(finalistas)
-
-def generarSublistas(lista):
+def generarSublistas(lista):  
+   
     sublistas = dividirLista(lista)
     sublista_izq = sublistas[0]
     sublista_der = sublistas[1]        
@@ -404,21 +380,38 @@ def generarSublistas(lista):
 
     if sublista_izq is not None:
         sublistas_clasificadas.append(sublista_izq)
-        print("Sublista izq: ", sublista_izq)        
+        print("Sublista izq: ", sublista_izq)
+    else:
+        print("Hubo None por izq")        
     
     sublista_der = ordenarAscendentemente(sublista_der)
 
     if sublista_der is not None:
         sublistas_clasificadas.append(sublista_der)
         print("Sublista der: ", sublista_der)
-    
-print("|------------- ANTES ----------------|")
-print(lista)
-print("|------------- FINALISTAS ----------------|")
-generarSublistas(lista)
-print("Finalistas: ", sublistas_clasificadas)
-print("|------------- LISTA ORDENADA ----------------|")    
-fusionarSublistas(sublistas_clasificadas)
-print(sublistas_clasificadas[0])
-
+    else:
+        print("Hubo None por der")
+            
+def fusionarSublistas(finalistas):    
+    if len(finalistas) > 1:        
+        lista = evaluarExtremosEInsertar(finalistas.pop(0), finalistas.pop(0))
+        finalistas.append(lista)
+        fusionarSublistas(finalistas)
+               
+def iniciar():
+    if len(lista) > 1:               
+        print("|------------- ANTES ----------------|")
+        print(lista)
+        print("|------------- FINALISTAS ----------------|")
+        generarSublistas(lista)
+        print("Finalistas: ", sublistas_clasificadas)
+        print("|------------- LISTA ORDENADA ----------------|")    
+        fusionarSublistas(sublistas_clasificadas)
+        print(sublistas_clasificadas[0])                
+    elif len(lista) == 1:
+        print("La lista necesita al menos 2 elementos")
+    else:
+        print("La lista está vacía")    
+        
+iniciar()
 
