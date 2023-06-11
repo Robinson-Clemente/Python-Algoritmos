@@ -10,6 +10,7 @@ lista = [16, 15, 13, 12, 11, 19, 38, 37, 36,
 #lista = [1,2,3,4,5,6,7,8,9]
 #lista.reverse()
 #lista = []
+
 sublistas_clasificadas = []
 
 def ordenarPar(indice0, indice1, sublista):
