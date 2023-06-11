@@ -2,7 +2,6 @@
 
 # Se realiza algoritmo de ordenación ascendente de forma recursiva
 
-
 lista = [16, 15, 13, 12, 11, 19, 38, 37, 36,
        35, 34, 33, 32, 8, 7, 6, 5, 4, 3, 2, 1]
          
@@ -103,113 +102,20 @@ def insertarPorDerechaRecursivamente(lista0, lista1):
     if len(lista1) > 0:        
         insertarPorDerechaRecursivamente(lista0, lista1)
         
-#Desusado
-def encontrarUltimoExtremoMayorRepetido(contador, extremo_mayor, sublista0):
-    numero = 0
-    indice = (len(sublista0) - 1) - contador
-        
-    if contador == 0:
-        numero = sublista0[len(sublista0) - 1]
-    else:
-        numero = sublista0[indice]                      
-        
-    if numero == extremo_mayor:
-        return indice
-    else:
-        contador += 1     
-        return encontrarUltimoExtremoMayorRepetido(contador, extremo_mayor, sublista0)
-    
-#Desusado
-def insercionIntermediaRecursiva(indice, lista0, lista1):
-    if indice < (len(lista0)-1):
-        extremo_menor_temporal = lista0[indice]
-        extremo_mayor_temporal = lista0[indice+1]
-        if len(lista1) >= 1:
-            numero = lista1.pop(0)
-            """ Se cae en cuenta que se puede utilizar el número nuevo insertado a la lista
-            como recurso para ordenar correctamente la lista. Además se sabe que
-            el próximo número a ingresar es mayor que el recién ingresado """
-            
-            # Caso cuando el número es menor que ambos extremos
-            if (extremo_menor_temporal > numero) and (extremo_mayor_temporal > numero):
-                lista0.insert(indice, numero)
-                """
-                Como se insertó un número por izquierda, entonces debe actualizarse
-                el índice para no perder el extremo menor temporal de referencia
-                """
-                indice += 1
-                insercionIntermediaRecursiva(indice, lista0, lista1)                         
-
-            """Caso cuando el número es mayor que el extremo menor, pero menor que el
-            extremo mayor (extremo_menor < numero < extremo_mayor)"""
-            if (extremo_menor_temporal < numero) and (extremo_mayor_temporal > numero):
-                lista0.insert(indice+1, numero)
-                """
-                # El indice se actualiza ya que el extremo menor fue superado
-                y se sabe que si hay un próximo numero será mayor que este nuevo
-                extremo temporal
-                """                
-                indice = lista0.index(numero)
-                insercionIntermediaRecursiva(indice, lista0, lista1)
-                """ En este caso sí se actualiza el indice debido a que se sabe
-                que el próximo numero (si lo hay) a evaluar es mayor que el recién ingresado """
-
-            # Caso cuando el número es igual al extremo menor
-            if extremo_menor_temporal == numero:
-                lista0.insert(indice+1, numero) # indice+1 para que el insert lo añada delante del extremo menor
-                indice = lista0.index(numero, indice+1) #para que retorne el index por delante del extremo menor
-                #ya que al haber valores repetidos puede retornar un indice incorrecto
-                insercionIntermediaRecursiva(indice, lista0, lista1)
-
-            # Caso cuando el número es igual al extremo al extremo mayor
-            if extremo_mayor_temporal == numero:
-                lista0.insert(indice+2, numero) # indice para que el insert lo añada delante del extremo mayor
-                indice = lista0.index(numero, indice+2) #para que retorne el index delante del extremo mayor
-                #ya que al haber valores repetidos puede retornar un indice incorrecto
-                insercionIntermediaRecursiva(indice, lista0, lista1)                
-
-            #Caso cuando el número es mayor que ambos  extremos
-            if (extremo_menor_temporal < numero) and (extremo_mayor_temporal < numero):
-                """Debido a que el insert añade el elemento en la posición ante-
-                rior a la dada, entonces por eso se añade (indice+1)+1) o indice+2. No se usa
-                el método append porque no es lo mismo añadir adelante del nuevo número ingresado 
-                que al final de la lista, ya cuando se añade un nuevo elemento, no siempre es
-                al final de la lista. Tengo que verificar que esto es así.
-
-                #Aquí hay un aspecto a corregir, tienes que validar que el extremo mayor no esté
-                repetido, porque si es el caso, entonces tienes que añadir el número al final de
-                la lista. Recuerda el extremo mayor es el número mayor de la lista independiente-
-                mente si está repetido o no. Esto mismo debe analizarse para el extremo menor.
-
-                """
-                                                
-                # Se deben hacer las pruebas para la inserción intermedia por izquierda con el extremo menor repetido
-                
-                """
-                    Se verifica que el extremo mayor no esté repetido
-                """
-                                
-                # Se verifica que exista un número después del extremo mayor temporal en la lista
-                if (lista0.index(extremo_mayor_temporal)+1) < len(lista0):
-                    proximo = lista0[lista0.index(extremo_mayor_temporal)+1]
-                    if proximo == extremo_mayor_temporal:
-                        # Este indice es el del extremo mayor temporal, no del menor como es común
-                        indice_extremo_mayor = encontrarUltimoExtremoMayorRepetido(0, extremo_mayor_temporal, lista0)
-                        lista0.insert(indice_extremo_mayor+1, numero) 
-                    else:
-                        lista0.insert((indice+2), numero)
-                        indice = lista0.index(numero)
-                        insercionIntermediaRecursiva(indice, lista0, lista1)
-
+"""
+Este método busca el último numero repetido del indice actual (la busqueda se
+hace de derecha a izquierda). Este método no es usado debido a que hace parte
+de la lógica del método insercionIntermediaRecursivaMejorada el cual fue reem-
+plazado por el método insercionIntermediaRecursivaSimplificada.
+"""
 def encontrarUltimoNumeroIndiceRepetido(contador, numero_indice, sublista0):    
-    numero = 0
-   
+    numero = 0   
     indice = (len(sublista0) - 1) - contador
-        
+            
     if contador == 0:
         numero = sublista0[len(sublista0) - 1]
     else:
-        numero = sublista0[indice]                      
+        numero = sublista0[indice]
         
     if numero == numero_indice:
         return indice
@@ -217,7 +123,10 @@ def encontrarUltimoNumeroIndiceRepetido(contador, numero_indice, sublista0):
         contador += 1     
         return encontrarUltimoNumeroIndiceRepetido(contador, numero_indice, sublista0)
 
-# Este método busca el primer número mayor de la lista de izquierda a derecha
+"""
+Este método busca el próximo número de la lista de izquierda a derecha(a partir
+del indice dado) que sea mayor que el numero a insertar.
+"""
 def encontrarProximoMayorIgual(indice, numero, sublista0):    
     if numero <= sublista0[indice]:
         return indice
@@ -231,7 +140,10 @@ def encontrarProximoMayorIgual(indice, numero, sublista0):
             return encontrarProximoMayorIgual(indice, numero, sublista0)
         else:
             return indice
-        
+"""
+Método desusado se conserva por motivos comparativos (véase y compárese con el
+método insercionIntermediaRecursivaSimplificada).
+"""
 def insercionIntermediaRecursivaMejorada(indice, numero, sublista0, sublista1):
     if indice < (len(sublista0) - 1) and len(sublista1) >= 1:
         """ Corresponde tratar el caso cuando la lista0 tiene menos elementos que la lista1
@@ -330,13 +242,23 @@ def insercionIntermediaRecursivaSimplificada(indice, sublista0, sublista1):
     dentro del condicional y dentro del presente método hace que el código
     solo necesite de un condicional, ya que el cambio de estado del tamaño
     de la lista solo ocurre dentro de estos.
+        
+    Este método usa una lógica mucho más sencilla para realizar la inserción:
+    Simplemente busca de izquierda a derecha (a partir del valor del indice)
+    el número mayor al sacado de la sublista1 y lo inserta dependiendo si el
+    numero indice es mayor o menor o igual.
     """        
     if (indice < len(sublista0)) and (len(sublista1) >= 1):    
         numero = sublista1.pop(0)
         indice = encontrarProximoMayorIgual(indice, numero, sublista0)
         """
-        Aquí no importa si el número está repetido porque esta sería
-        la primera ocurrencia de dicho numero de la sublista0.
+        Aquí no importa si el número está repetido porque si el numero
+        a insertar es menor o igual la inserción se haría en la primera ocurrencia
+        de numeros repetidos de la sublista0. Ni tampoco si el numero a insertar
+        es mayor, porque como siempre el métodoencontrarProximoMayorIgual busca
+        el mayor o igual y si este no existe, entonces retorna el índice del 
+        último valor comparado (el cual es el mayor) para permitir la inserción
+        intermedia por derecha.
         """
         if numero <= sublista0[indice]:
             sublista0.insert(indice, numero)
@@ -364,13 +286,7 @@ def evaluarExtremosEInsertar(sublista0, sublista1):
         de la sublista0
         """        
     elif extremo_menor_1 > extremo_mayor_0:
-        insertarPorDerechaRecursivamente(sublista0, sublista1)
-        """
-        independientemente si la inserción intermedia es por izquierda o por derecha,
-        al utilizar un número como cota inferior y otro como cota superior, es posible determinar
-        especificamente dónde va a ser insertado el número evaluado. Es por esto que la inser-
-        ción intermedia no necesita especificar casos especificos (por izquierda o por derecha).
-        """
+        insertarPorDerechaRecursivamente(sublista0, sublista1)        
     else:   
         insercionIntermediaRecursivaSimplificada(0, sublista0, sublista1)
     
