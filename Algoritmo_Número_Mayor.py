@@ -8,7 +8,7 @@ para recorrer tanto por izquierda como por derecha.
 """
 
 lista = [-100,21,23,24,101,6,7,8,9,71,17,500]
-
+    
 def clasificarMayorFormaUno(lista):   
     # Se procede a dividir la lista a la mitad entera
     mitad = 0
@@ -71,7 +71,7 @@ def clasificarMayorFormaUno(lista):
         return mayor_izq
     else:                
         return mayor_der
-    
+
 def encontrarMayorFormaDos(indice, mayor, sublista0):
     if indice < len(sublista0):
         if sublista0[indice] > mayor:
