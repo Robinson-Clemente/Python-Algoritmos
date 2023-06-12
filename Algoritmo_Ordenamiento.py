@@ -7,8 +7,8 @@ lista = [16, 15, 13, 12, 11, 19, 38, 37, 36,
          
 #lista = [8,6,4,1,7,7,7,7,1,7,7,7,5,3,2,1]
 #lista = [1,2,3,1,2,3,12,3,1,2,3,5,4,1]
-#lista = [1,2,3,4,5,6,7,8,9]
-#lista.reverse()
+lista = [1,2,3,4,5,6,7,8,9]
+lista.reverse()
 #lista = []
 
 sublistas_clasificadas = []
@@ -310,16 +310,33 @@ def fusionarSublistas(finalistas):
         finalistas.append(lista)
         fusionarSublistas(finalistas)
                
+#Este método verifica que la lista para determinar si está ordenada.
+def estaOrdenada(indice):
+    isOrdered = True
+    if indice < (len(lista) - 1):    
+        if lista[indice] > lista[indice+1]:
+            isOrdered = False
+            return isOrdered
+        else:
+            indice += 1
+            return estaOrdenada(indice)
+    else:
+        return isOrdered               
+               
 def iniciar():    
-    if len(lista) > 1:               
-        print("|---------------- ANTES ----------------|")
-        print(lista)
-        print("|--------------- FINALISTAS ---------------|")
-        generarSublistas(lista)
-        print("Finalistas: ", sublistas_clasificadas)
-        print("|------------- LISTA ORDENADA -------------|")    
-        fusionarSublistas(sublistas_clasificadas)
-        print(sublistas_clasificadas[0])                
+    if len(lista) > 1:
+        if not(estaOrdenada(0)):               
+            print("|---------------- ANTES ----------------|")
+            print(lista)
+            print("|--------------- FINALISTAS ---------------|")
+            generarSublistas(lista)
+            print("Finalistas: ", sublistas_clasificadas)
+            print("|------------- LISTA ORDENADA -------------|")    
+            fusionarSublistas(sublistas_clasificadas)
+            print(sublistas_clasificadas[0])
+        else:
+            print("la lista está ordenada")
+            print(lista)              
     elif len(lista) == 1:
         print("La lista necesita al menos 2 elementos")
     else:

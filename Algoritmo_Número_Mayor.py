@@ -7,8 +7,9 @@ Notas: - Este código necesita ser mejorado. Solo basta el método desarrollado
 para recorrer tanto por izquierda como por derecha.
 """
 
-lista = [-100,21,23,24,101,6,7,8,9,71,17,500]
-lista = [1,2]
+#lista = [-100,21,23,24,101,6,7,8,9,71,17,500]
+lista = [1,2,3,4,5,6,7,8,9,10]
+
 def clasificarMayorFormaUno(lista):   
     # Se procede a dividir la lista a la mitad entera
     mitad = 0
@@ -83,15 +84,32 @@ def encontrarMayorFormaDos(indice, mayor, sublista0):
             mayor = encontrarMayorFormaDos(indice, mayor, sublista0)
     return mayor
 
+#Este método verifica que la lista para determinar si está ordenada.
+def estaOrdenada(indice):
+    isOrdered = True
+    if indice < (len(lista) - 1):    
+        if lista[indice] > lista[indice+1]:
+            isOrdered = False
+            return isOrdered
+        else:
+            indice += 1
+            return estaOrdenada(indice)
+    else:
+        return isOrdered
+
 def iniciar():
     if len(lista) > 1:
-        print("|-------------------- PRIMER MÉTODO --------------------|")
-        resultado = clasificarMayorFormaUno(lista)
-        print("El número clasificado es:", resultado)
-        print("|-------------------- SEGUNDO MÉTODO --------------------|")
-        resultado = encontrarMayorFormaDos(0, 0, lista)
-        print("El número clasificado es:", resultado)
+        if not(estaOrdenada(0)):
+            print("|-------------------- PRIMER MÉTODO --------------------|")
+            resultado = clasificarMayorFormaUno(lista)
+            print("El número clasificado es:", resultado)
+            print("|-------------------- SEGUNDO MÉTODO --------------------|")
+            resultado = encontrarMayorFormaDos(0, 0, lista)
+            print("El número clasificado es:", resultado)
+        else:
+            print("El número clasificado es:", lista[(len(lista) - 1)])
     else:
         print("La lista necesita al menos 2 elementos")
                 
 iniciar()
+print("¿La lista está ordenada?", estaOrdenada(0))
