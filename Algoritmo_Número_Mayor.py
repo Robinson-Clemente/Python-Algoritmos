@@ -8,7 +8,7 @@ para recorrer tanto por izquierda como por derecha.
 """
 
 lista = [-100,21,23,24,101,6,7,8,9,71,17,500]
-    
+lista = [1,2]
 def clasificarMayorFormaUno(lista):   
     # Se procede a dividir la lista a la mitad entera
     mitad = 0
@@ -83,10 +83,15 @@ def encontrarMayorFormaDos(indice, mayor, sublista0):
             mayor = encontrarMayorFormaDos(indice, mayor, sublista0)
     return mayor
 
-print("|-------------------- PRIMER MÉTODO --------------------|")
-resultado = clasificarMayorFormaUno(lista)
-print("El número clasificado es:", resultado)
-print("|-------------------- SEGUNDO MÉTODO --------------------|")
-resultado = encontrarMayorFormaDos(0, 0, lista)
-print("El número clasificado es:", resultado)
-
+def iniciar():
+    if len(lista) > 1:
+        print("|-------------------- PRIMER MÉTODO --------------------|")
+        resultado = clasificarMayorFormaUno(lista)
+        print("El número clasificado es:", resultado)
+        print("|-------------------- SEGUNDO MÉTODO --------------------|")
+        resultado = encontrarMayorFormaDos(0, 0, lista)
+        print("El número clasificado es:", resultado)
+    else:
+        print("La lista necesita al menos 2 elementos")
+                
+iniciar()
