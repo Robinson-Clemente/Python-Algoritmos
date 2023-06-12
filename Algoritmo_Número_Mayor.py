@@ -85,7 +85,7 @@ def encontrarMayorFormaDos(indice, mayor, sublista0):
     return mayor
 
 #Este método verifica que la lista para determinar si está ordenada.
-def estaOrdenada(indice):
+def estaOrdenada(indice, lista):
     isOrdered = True
     if indice < (len(lista) - 1):    
         if lista[indice] > lista[indice+1]:
@@ -93,13 +93,13 @@ def estaOrdenada(indice):
             return isOrdered
         else:
             indice += 1
-            return estaOrdenada(indice)
+            return estaOrdenada(indice, lista)
     else:
         return isOrdered
 
 def iniciar():
     if len(lista) > 1:
-        if not(estaOrdenada(0)):
+        if not(estaOrdenada(0, lista)):
             print("|-------------------- PRIMER MÉTODO --------------------|")
             resultado = clasificarMayorFormaUno(lista)
             print("El número clasificado es:", resultado)
@@ -112,4 +112,4 @@ def iniciar():
         print("La lista necesita al menos 2 elementos")
                 
 iniciar()
-print("¿La lista está ordenada?", estaOrdenada(0))
+print("¿La lista está ordenada?", estaOrdenada(0, lista))
